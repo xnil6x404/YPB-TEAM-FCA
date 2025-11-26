@@ -1,0 +1,37 @@
+run = "node test/bot.js"
+entrypoint = "README.md"
+modules = ["nodejs-20"]
+
+[nix]
+channel = "stable-24_05"
+packages = ["cowsay", "libuuid"]
+
+[agent]
+expertMode = true
+
+[[ports]]
+localPort = 3001
+externalPort = 80
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Bot"
+
+[[workflows.workflow]]
+name = "Bot"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node test/bot.js"
+
+[workflows.workflow.metadata]
+outputType = "console"
